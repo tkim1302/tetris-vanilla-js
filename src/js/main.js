@@ -1,5 +1,5 @@
 import "../css/style.css";
-import { lShape } from "./tetromino.js";
+import { getRandomShape } from "./utils/randomGenerator.js";
 import { initGame } from "./grid.js";
 
-initGame(lShape);
+initGame(getRandomShape());
