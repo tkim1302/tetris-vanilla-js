@@ -1,4 +1,5 @@
-import { createGrid } from "./grid.js";
 import "../css/style.css";
+import { lShape } from "./tetromino.js";
+import { initGame } from "./grid.js";
 
-createGrid("grid-container");
+initGame(lShape);

@@ -15,3 +15,7 @@ body {
 .cell {
   border: 1px solid #343434;
 }
+
+.occupied {
+  background-color: #000000;
+}
