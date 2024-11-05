@@ -1,12 +1,44 @@
-export const lShape = [
-  [0, 3],
-  [0, 4],
-  [0, 5],
-  [0, 6],
+export const shapes = [
+  [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [0, 6],
+  ], // lShape
+  [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [1, 5],
+  ], // JShape
+  [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [1, 3],
+  ], // LShape
+  [
+    [0, 4],
+    [0, 5],
+    [1, 4],
+    [1, 5],
+  ], // OShape
+  [
+    [1, 3],
+    [1, 4],
+    [0, 4],
+    [0, 5],
+  ], // SShape
+  [
+    [0, 3],
+    [0, 4],
+    [0, 5],
+    [1, 4],
+  ], // TShape
+  [
+    [0, 3],
+    [0, 4],
+    [1, 4],
+    [1, 5],
+  ], // ZShape
 ];
-const JShape = [];
-const LShape = [];
-const OShape = [];
-const SShape = [];
-const TShpae = [];
-const ZShape = [];
