@@ -1,0 +1,17 @@
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#grid-container {
+  display: grid;
+  grid-template-rows: repeat(20, 40px);
+  grid-template-columns: repeat(10, 40px);
+  border: 2px solid #000000;
+  width: 400px;
+}
+
+.cell {
+  border: 1px solid #343434;
+}
