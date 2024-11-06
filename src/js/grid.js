@@ -1,3 +1,5 @@
+import { getRandomShape } from "./utils/randomGenerator";
+
 const rows = 20;
 const cols = 10;
 let currShape = [];
@@ -41,8 +43,36 @@ const moveShapeDown = () => {
   drawShape(newPosition);
 };
 
-export const initGame = (initialShape) => {
+const rotateShape = () => {
+  clearShape();
+
+  const [pivotRow, pivotCol] = currShape[1];
+  const rotatedShape = currShape.map(([row, col]) => {
+    const relativeRow = row - pivotRow;
+    const relativeCol = col - pivotCol;
+
+    const rotatedRelativeRow = -relativeCol;
+    const rotatedRelativeCol = relativeRow;
+
+    const newRow = pivotRow + rotatedRelativeRow;
+    const newCol = pivotCol + rotatedRelativeCol;
+
+    return [newRow, newCol];
+  });
+
+  drawShape(rotatedShape);
+  currShape = rotatedShape;
+};
+
+const handleKeyPress = (event) => {
+  if (event.key === "ArrowUp") {
+    rotateShape();
+  }
+};
+
+export const initGame = () => {
   createGrid();
-  drawShape(initialShape);
+  drawShape(getRandomShape());
+  document.addEventListener("keydown", handleKeyPress);
   setInterval(moveShapeDown, 1000);
 };
