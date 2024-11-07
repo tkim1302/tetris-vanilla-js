@@ -1,14 +1,14 @@
 import { getRandomShape } from "./utils/randomGenerator";
 
 const rows = 20;
-const cols = 10;
+const cols = Array(10).fill({ bottom: 20 });
 let currShape = { position: "", color: "" };
 
 const createGrid = () => {
   const gridContainer = document.getElementById("grid-container");
 
   for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols; col++) {
+    for (let col = 0; col < cols.length; col++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.setAttribute("data-row", row);
@@ -16,6 +16,19 @@ const createGrid = () => {
       gridContainer.appendChild(cell);
     }
   }
+};
+
+const hasHitBottom = (position) => {
+  return cols.some((col) => position[0] >= col.bottom - 1);
+};
+
+const moveShapeDown = () => {
+  clearShape();
+
+  const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
+
+  currShape.position = newPosition;
+  drawShape(currShape);
 };
 
 const clearShape = () => {
@@ -41,13 +54,6 @@ const drawShape = (shape) => {
     }
   });
   currShape = shape;
-};
-
-const moveShapeDown = () => {
-  clearShape();
-  const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
-  currShape.position = newPosition;
-  drawShape(currShape);
 };
 
 const rotateShape = () => {
@@ -81,5 +87,5 @@ export const initGame = () => {
   createGrid();
   drawShape(getRandomShape());
   document.addEventListener("keydown", handleKeyPress);
-  setInterval(moveShapeDown, 1000);
+  setInterval(moveShapeDown, 500);
 };

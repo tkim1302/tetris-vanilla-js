@@ -16,10 +16,6 @@ body {
   border: 1px solid #343434;
 }
 
-.occupied {
-  background-color: #000000;
-}
-
 .lShape {
   background-color: #a6e1ff;
 }
@@ -37,7 +33,7 @@ body {
 }
 
 .SShape {
-  background-color: "#62ff33";
+  background-color: #62ff33;
 }
 
 .TShape {
