@@ -1,7 +1,7 @@
 import { getRandomShape } from "./utils/randomGenerator";
 
 const rows = 20;
-const cols = Array(10).fill({ bottom: 20 });
+const cols = Array.from({ length: 10 }, () => ({ bottom: 20 }));
 let currShape = { position: "", color: "" };
 
 const createGrid = () => {
@@ -19,15 +19,20 @@ const createGrid = () => {
 };
 
 const hasHitBottom = (position) => {
-  return cols.some((col) => position[0] >= col.bottom - 1);
+  return position.some(([row, col]) => row >= cols[col].bottom - 1);
 };
 
 const moveShapeDown = () => {
-  clearShape();
-
   const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
-
-  currShape.position = newPosition;
+  if (hasHitBottom(currShape.position)) {
+    currShape.position.forEach(([row, col]) => {
+      cols[col].bottom = Math.min(cols[col].bottom, row);
+    });
+    currShape = getRandomShape();
+  } else {
+    clearShape();
+    currShape.position = newPosition;
+  }
   drawShape(currShape);
 };
 
@@ -37,7 +42,6 @@ const clearShape = () => {
       `[data-row="${row}"][data-col="${col}"]`
     );
     if (cell) {
-      cell.classList.remove("occupied");
       cell.classList.remove(currShape.name);
     }
   });
@@ -49,10 +53,10 @@ const drawShape = (shape) => {
       `[data-row="${row}"][data-col="${col}"]`
     );
     if (cell) {
-      cell.classList.add("occupied");
       cell.classList.add(shape.name);
     }
   });
+
   currShape = shape;
 };
 
@@ -73,6 +77,7 @@ const rotateShape = () => {
 
     return [newRow, newCol];
   });
+
   currShape.position = rotatedShape;
   drawShape(currShape);
 };
@@ -87,5 +92,5 @@ export const initGame = () => {
   createGrid();
   drawShape(getRandomShape());
   document.addEventListener("keydown", handleKeyPress);
-  setInterval(moveShapeDown, 500);
+  setInterval(moveShapeDown, 60);
 };
