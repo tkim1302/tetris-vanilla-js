@@ -2,7 +2,7 @@ import { getRandomShape } from "./utils/randomGenerator";
 
 const rows = 20;
 const cols = 10;
-let currShape = [];
+let currShape = { position: "", color: "" };
 
 const createGrid = () => {
   const gridContainer = document.getElementById("grid-container");
@@ -19,35 +19,43 @@ const createGrid = () => {
 };
 
 const clearShape = () => {
-  currShape.forEach(([row, col]) => {
+  currShape.position.forEach(([row, col]) => {
     const cell = document.querySelector(
       `[data-row="${row}"][data-col="${col}"]`
     );
-    if (cell) cell.classList.remove("occupied");
+    if (cell) {
+      cell.classList.remove("occupied");
+      cell.classList.remove(currShape.name);
+    }
   });
 };
 
 const drawShape = (shape) => {
-  shape.forEach(([row, col]) => {
+  shape.position.forEach(([row, col]) => {
     const cell = document.querySelector(
       `[data-row="${row}"][data-col="${col}"]`
     );
-    if (cell) cell.classList.add("occupied");
+    if (cell) {
+      cell.classList.add("occupied");
+      cell.classList.add(shape.name);
+    }
   });
   currShape = shape;
 };
 
 const moveShapeDown = () => {
   clearShape();
-  const newPosition = currShape.map(([row, col]) => [row + 1, col]);
-  drawShape(newPosition);
+  const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
+  currShape.position = newPosition;
+  drawShape(currShape);
 };
 
 const rotateShape = () => {
+  const currShapePosition = currShape.position;
   clearShape();
 
-  const [pivotRow, pivotCol] = currShape[1];
-  const rotatedShape = currShape.map(([row, col]) => {
+  const [pivotRow, pivotCol] = currShapePosition[1];
+  const rotatedShape = currShapePosition.map(([row, col]) => {
     const relativeRow = row - pivotRow;
     const relativeCol = col - pivotCol;
 
@@ -59,9 +67,8 @@ const rotateShape = () => {
 
     return [newRow, newCol];
   });
-
-  drawShape(rotatedShape);
-  currShape = rotatedShape;
+  currShape.position = rotatedShape;
+  drawShape(currShape);
 };
 
 const handleKeyPress = (event) => {

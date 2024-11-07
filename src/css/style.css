@@ -19,3 +19,31 @@ body {
 .occupied {
   background-color: #000000;
 }
+
+.lShape {
+  background-color: #a6e1ff;
+}
+
+.JShape {
+  background-color: #0f51b7;
+}
+
+.LShape {
+  background-color: #ff7f00;
+}
+
+.OShape {
+  background-color: #fffd33;
+}
+
+.SShape {
+  background-color: "#62ff33";
+}
+
+.TShape {
+  background-color: #e833ff;
+}
+
+.ZShape {
+  background-color: #ff333e;
+}
