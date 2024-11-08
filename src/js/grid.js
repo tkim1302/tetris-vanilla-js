@@ -82,9 +82,43 @@ const rotateShape = () => {
   drawShape(currShape);
 };
 
+const moveLeft = () => {
+  const newPosition = currShape.position.map(([row, col]) => [row, col - 1]);
+  clearShape();
+  currShape.position = newPosition;
+  drawShape(currShape);
+};
+
+const moveDown = () => {
+  const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
+  clearShape();
+  currShape.position = newPosition;
+  drawShape(currShape);
+};
+
+const moveRight = () => {
+  const newPosition = currShape.position.map(([row, col]) => [row, col + 1]);
+  clearShape();
+  currShape.position = newPosition;
+  drawShape(currShape);
+};
+
 const handleKeyPress = (event) => {
-  if (event.key === "ArrowUp") {
-    rotateShape();
+  switch (event.key) {
+    case "ArrowUp":
+      rotateShape();
+      break;
+    case "ArrowLeft":
+      moveLeft();
+      break;
+    case "ArrowRight":
+      moveRight();
+      break;
+    case "ArrowDown":
+      moveDown();
+      break;
+    default:
+      break;
   }
 };
 
@@ -92,5 +126,5 @@ export const initGame = () => {
   createGrid();
   drawShape(getRandomShape());
   document.addEventListener("keydown", handleKeyPress);
-  setInterval(moveShapeDown, 60);
+  setInterval(moveShapeDown, 500);
 };
