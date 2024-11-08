@@ -1,14 +1,14 @@
 import { getRandomShape } from "./utils/randomGenerator";
 
 const rows = 20;
-const cols = Array.from({ length: 10 }, () => ({ bottom: 20 }));
+const cols = 10;
 let currShape = { position: "", color: "" };
 
 const createGrid = () => {
   const gridContainer = document.getElementById("grid-container");
 
   for (let row = 0; row < rows; row++) {
-    for (let col = 0; col < cols.length; col++) {
+    for (let col = 0; col < cols; col++) {
       const cell = document.createElement("div");
       cell.classList.add("cell");
       cell.setAttribute("data-row", row);
@@ -18,22 +18,28 @@ const createGrid = () => {
   }
 };
 
-const hasHitBottom = (position) => {
-  return position.some(([row, col]) => row >= cols[col].bottom - 1);
+const hasLanded = (position) => {
+  clearShape();
+
+  return position.some(([row, col]) => {
+    const cell = document.querySelector(
+      `[data-row="${row}"][data-col="${col}"]`
+    );
+    return row >= rows || cell?.classList.contains("occupied");
+  });
 };
 
 const moveShapeDown = () => {
   const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
-  if (hasHitBottom(currShape.position)) {
-    currShape.position.forEach(([row, col]) => {
-      cols[col].bottom = Math.min(cols[col].bottom, row);
-    });
+
+  if (hasLanded(newPosition)) {
+    drawShape(currShape);
     currShape = getRandomShape();
   } else {
     clearShape();
     currShape.position = newPosition;
+    drawShape(currShape);
   }
-  drawShape(currShape);
 };
 
 const clearShape = () => {
@@ -43,6 +49,7 @@ const clearShape = () => {
     );
     if (cell) {
       cell.classList.remove(currShape.name);
+      cell.classList.remove("occupied");
     }
   });
 };
@@ -54,6 +61,7 @@ const drawShape = (shape) => {
     );
     if (cell) {
       cell.classList.add(shape.name);
+      cell.classList.add("occupied");
     }
   });
 
@@ -82,23 +90,46 @@ const rotateShape = () => {
   drawShape(currShape);
 };
 
+const hasCollided = (position) => {
+  for (const [row, col] of position) {
+    const cell = document.querySelector(
+      `[data-row="${row}"][data-col="${col}"]`
+    );
+    if (
+      col < 0 ||
+      col >= cols ||
+      cell?.classList.contains("occupied") ||
+      row >= rows
+    ) {
+      return true;
+    }
+  }
+  return false;
+};
+
 const moveLeft = () => {
-  const newPosition = currShape.position.map(([row, col]) => [row, col - 1]);
+  let newPosition = currShape.position.map(([row, col]) => [row, col - 1]);
+
   clearShape();
+  if (hasCollided(newPosition)) newPosition = currShape.position;
   currShape.position = newPosition;
   drawShape(currShape);
 };
 
 const moveDown = () => {
-  const newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
+  let newPosition = currShape.position.map(([row, col]) => [row + 1, col]);
+
   clearShape();
+  if (hasCollided(newPosition)) newPosition = currShape.position;
   currShape.position = newPosition;
   drawShape(currShape);
 };
 
 const moveRight = () => {
-  const newPosition = currShape.position.map(([row, col]) => [row, col + 1]);
+  let newPosition = currShape.position.map(([row, col]) => [row, col + 1]);
+
   clearShape();
+  if (hasCollided(newPosition)) newPosition = currShape.position;
   currShape.position = newPosition;
   drawShape(currShape);
 };
