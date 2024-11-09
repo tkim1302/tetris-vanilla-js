@@ -86,7 +86,16 @@ const rotateShape = () => {
     return [newRow, newCol];
   });
 
-  currShape.position = rotatedShape;
+  if (!hasCollided(rotatedShape)) {
+    currShape.position = rotatedShape;
+  } else {
+    const rotationErrorMsg = document.getElementById("rotation-error-message");
+    rotationErrorMsg.textContent = "Not enough space to rotate";
+
+    setTimeout(() => {
+      rotationErrorMsg.textContent = "";
+    }, 2000);
+  }
   drawShape(currShape);
 };
 
