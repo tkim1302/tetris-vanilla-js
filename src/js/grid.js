@@ -2,6 +2,7 @@ import { getRandomShape } from "./utils/randomGenerator";
 
 const rows = 20;
 const cols = 10;
+let gameInterval;
 let currShape = { position: "", color: "" };
 
 const createGrid = () => {
@@ -35,6 +36,9 @@ const moveShapeDown = () => {
   if (hasLanded(newPosition)) {
     drawShape(currShape);
     currShape = getRandomShape();
+    if (gameOver()) {
+      return;
+    }
   } else {
     clearShape();
     currShape.position = newPosition;
@@ -107,8 +111,9 @@ const hasCollided = (position) => {
     if (
       col < 0 ||
       col >= cols ||
-      cell?.classList.contains("occupied") ||
-      row >= rows
+      row >= rows ||
+      row < 0 ||
+      cell?.classList.contains("occupied")
     ) {
       return true;
     }
@@ -162,9 +167,27 @@ const handleKeyPress = (event) => {
   }
 };
 
+const gameOver = () => {
+  const position = currShape.position;
+  for (const [row, col] of position) {
+    const cell = document.querySelector(
+      `[data-row="${row}"][data-col="${col}"]`
+    );
+    if (row === 0 && cell?.classList.contains("occupied")) {
+      clearInterval(gameInterval);
+      return true;
+    }
+  }
+  return false;
+};
+
+const gamePlay = () => {
+  moveShapeDown();
+};
+
 export const initGame = () => {
   createGrid();
   drawShape(getRandomShape());
   document.addEventListener("keydown", handleKeyPress);
-  setInterval(moveShapeDown, 500);
+  gameInterval = setInterval(gamePlay, 500);
 };
