@@ -35,6 +35,7 @@ const moveShapeDown = () => {
 
   if (hasLanded(newPosition)) {
     drawShape(currShape);
+    checkFullRows();
     currShape = getRandomShape();
     if (gameOver()) {
       return;
@@ -179,6 +180,46 @@ const gameOver = () => {
     }
   }
   return false;
+};
+
+const checkFullRows = () => {
+  for (let row = 0; row < rows; row++) {
+    const cells = document.querySelectorAll(`[data-row="${row}"]`);
+    if (
+      Array.from(cells).every((cell) => cell.classList.contains("occupied"))
+    ) {
+      clearRow(row);
+    }
+  }
+};
+
+const clearRow = (row) => {
+  const cells = document.querySelectorAll(`[data-row="${row}"]`);
+  cells.forEach((cell) => {
+    cell.classList.forEach((ele) => {
+      if (ele !== "cell") cell.classList.remove(ele);
+    });
+  });
+
+  for (let aboveRow = row - 1; aboveRow >= 0; aboveRow--) {
+    const cellsInAboveRow = document.querySelectorAll(
+      `[data-row="${aboveRow}"]`
+    );
+    cellsInAboveRow.forEach((cell) => {
+      const col = cell.getAttribute("data-col");
+      const belowCell = document.querySelector(
+        `[data-row="${aboveRow + 1}"][data-col="${col}"]`
+      );
+
+      cell.classList.forEach((ele) => {
+        if (ele !== "cell") belowCell.classList.add(ele);
+      });
+
+      cell.classList.forEach((ele) => {
+        if (ele !== "cell") cell.classList.remove(ele);
+      });
+    });
+  }
 };
 
 const gamePlay = () => {
