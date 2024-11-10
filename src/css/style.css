@@ -1,15 +1,62 @@
 body {
   display: flex;
-  align-items: center;
   justify-content: center;
+  gap: 100px;
 }
 
 #grid-container {
   display: grid;
-  grid-template-rows: repeat(20, 40px);
-  grid-template-columns: repeat(10, 40px);
+  grid-template-rows: repeat(20, 45px);
+  grid-template-columns: repeat(10, 45px);
   border: 2px solid #000000;
-  width: 400px;
+  width: 450px;
+  margin-top: 20px;
+}
+
+#status-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  gap: 20px;
+  width: 260px;
+}
+
+#notification {
+  font-size: 60px;
+  color: #ff333e;
+  min-width: 50px;
+  min-height: 80px;
+  white-space: nowrap;
+}
+
+#rotation-error-message {
+  font-size: 20px;
+  min-width: 50px;
+  min-height: 30px;
+  font-weight: bold;
+}
+
+#score-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+#score-container p {
+  margin: 0;
+}
+
+#score-text,
+#lines-text {
+  font-size: 40px;
+}
+
+#score,
+#lines {
+  font-size: 70px;
+  color: #0f51b7;
 }
 
 .cell {
