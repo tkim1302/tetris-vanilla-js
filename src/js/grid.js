@@ -2,6 +2,9 @@ import { getRandomShape } from "./utils/randomGenerator";
 
 const rows = 20;
 const cols = 10;
+let score = 0;
+let lines = 0;
+let notificationText = "";
 let gameInterval;
 let currShape = { position: "", color: "" };
 
@@ -35,9 +38,10 @@ const moveShapeDown = () => {
 
   if (hasLanded(newPosition)) {
     drawShape(currShape);
-    checkFullRows();
+    checkCompletedRows();
     currShape = getRandomShape();
     if (gameOver()) {
+      notificationText = "Game Over!";
       return;
     }
   } else {
@@ -176,21 +180,60 @@ const gameOver = () => {
     );
     if (row === 0 && cell?.classList.contains("occupied")) {
       clearInterval(gameInterval);
+      const notification = document.getElementById("notification");
+      notification.textContent = "Game Over";
       return true;
     }
   }
   return false;
 };
 
-const checkFullRows = () => {
+const checkCompletedRows = () => {
+  let completedRowsCnt = 0;
   for (let row = 0; row < rows; row++) {
     const cells = document.querySelectorAll(`[data-row="${row}"]`);
     if (
       Array.from(cells).every((cell) => cell.classList.contains("occupied"))
     ) {
       clearRow(row);
+      completedRowsCnt++;
+      lines++;
     }
   }
+  if (completedRowsCnt > 0) {
+    calculateScore(completedRowsCnt);
+  }
+};
+
+const calculateScore = (completedRowsCnt) => {
+  switch (completedRowsCnt) {
+    case 1:
+      score += 100;
+      notificationText = "Single!";
+      break;
+    case 2:
+      score += 300;
+      notificationText = "Double!";
+      break;
+    case 3:
+      score += 500;
+      notificationText = "Triple!";
+      break;
+    case 4:
+      score += 800;
+      notificationText = "Tetris!!";
+      break;
+  }
+  const notification = document.getElementById("notification");
+  notification.textContent = notificationText;
+  const linesText = document.getElementById("lines");
+  linesText.textContent = lines;
+  setTimeout(() => {
+    notification.textContent = "";
+  }, 2000);
+
+  const scoreText = document.getElementById("score");
+  scoreText.textContent = `${score}`;
 };
 
 const clearRow = (row) => {
