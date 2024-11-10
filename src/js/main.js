@@ -1,4 +1,4 @@
 import "../css/style.css";
-import { initGame } from "./grid.js";
+import { initGame } from "./game.js";
 
 initGame();
