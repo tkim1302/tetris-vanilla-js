@@ -205,6 +205,39 @@ const checkCompletedRows = () => {
   }
 };
 
+const clearRow = (row) => {
+  const cells = document.querySelectorAll(`[data-row="${row}"]`);
+  cells.forEach((cell) => {
+    cell.classList.forEach((ele) => {
+      if (ele !== "cell") cell.classList.remove(ele);
+    });
+  });
+
+  for (let aboveRow = row - 1; aboveRow >= 0; aboveRow--) {
+    const cellsInAboveRow = document.querySelectorAll(
+      `[data-row="${aboveRow}"]`
+    );
+    cellsInAboveRow.forEach((cell) => {
+      const col = cell.getAttribute("data-col");
+      const belowCell = document.querySelector(
+        `[data-row="${aboveRow + 1}"][data-col="${col}"]`
+      );
+
+      belowCell.classList.forEach((ele) => {
+        if (ele !== "cell") belowCell.classList.remove(ele);
+      });
+
+      cell.classList.forEach((ele) => {
+        if (ele !== "cell") belowCell.classList.add(ele);
+      });
+
+      cell.classList.forEach((ele) => {
+        if (ele !== "cell") cell.classList.remove(ele);
+      });
+    });
+  }
+};
+
 const calculateScore = (completedRowsCnt) => {
   switch (completedRowsCnt) {
     case 1:
@@ -234,35 +267,6 @@ const calculateScore = (completedRowsCnt) => {
 
   const scoreText = document.getElementById("score");
   scoreText.textContent = `${score}`;
-};
-
-const clearRow = (row) => {
-  const cells = document.querySelectorAll(`[data-row="${row}"]`);
-  cells.forEach((cell) => {
-    cell.classList.forEach((ele) => {
-      if (ele !== "cell") cell.classList.remove(ele);
-    });
-  });
-
-  for (let aboveRow = row - 1; aboveRow >= 0; aboveRow--) {
-    const cellsInAboveRow = document.querySelectorAll(
-      `[data-row="${aboveRow}"]`
-    );
-    cellsInAboveRow.forEach((cell) => {
-      const col = cell.getAttribute("data-col");
-      const belowCell = document.querySelector(
-        `[data-row="${aboveRow + 1}"][data-col="${col}"]`
-      );
-
-      cell.classList.forEach((ele) => {
-        if (ele !== "cell") belowCell.classList.add(ele);
-      });
-
-      cell.classList.forEach((ele) => {
-        if (ele !== "cell") cell.classList.remove(ele);
-      });
-    });
-  }
 };
 
 const gamePlay = () => {
