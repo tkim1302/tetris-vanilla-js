@@ -7,26 +7,31 @@
     <title>Tetris</title>
   </head>
   <body>
-    <div id="grid-container"></div>
-    <div id="next-shapes-container">
-      <h3>Next shapes</h3>
-      <ul id="next-shapes-list"></ul>
-    </div>
-    <div id="status-board">
-      <h2 id="notification"></h2>
-      <p id="rotation-error-message"></p>
-      <div id="score-container">
-        <p id="score-text">Score</p>
-        <p id="score">0</p>
-        <p id="lines-text">Lines</p>
-        <p id="lines">0</p>
+    <div id="left-side">
+      <div id="grid-container"></div>
+      <div id="next-shapes-container">
+        <h3 id="next-shapes-text">Next</h3>
+        <ul id="next-shapes-list"></ul>
       </div>
-      <div id="top-scores-container">
-        <h3>Top 5 Scores</h3>
-        <ul id="top-scores-list"></ul>
-      </div>
-      <button id="restart-button">restart</button>
     </div>
+    <div id="right-side">
+      <div id="status-board">
+        <h2 id="notification"></h2>
+        <p id="rotation-error-message"></p>
+        <div id="score-container">
+          <p id="score-text">Score</p>
+          <p id="score">0</p>
+          <p id="lines-text">Lines</p>
+          <p id="lines">0</p>
+        </div>
+        <div id="top-scores-container">
+          <h3 id="top-scores-text">⭐️Top 5 Scores⭐️</h3>
+          <ul id="top-scores-list"></ul>
+        </div>
+        <button id="restart-button">restart</button>
+      </div>
+    </div>
+
     <script type="module" src="./src/js/main.js"></script>
   </body>
 </html>

@@ -177,7 +177,7 @@ const gameOver = () => {
   topScoresList.innerHTML = "";
   topScores.forEach((score, index) => {
     const li = document.createElement("li");
-    li.textContent = `${index + 1}. Score: ${score} Lines: ${lines}`;
+    li.textContent = `${index + 1}. Score: ${score}`;
     topScoresList.appendChild(li);
   });
 };
