@@ -143,21 +143,39 @@ const gameOver = () => {
   clearInterval(gameInterval);
   saveScore(score);
 
-  document.getElementById("score-container").style.display = "none";
+  const scoreContainer = document.getElementById("score-container");
+  scoreContainer.classList.add("hidden");
 
   const topScoresContainer = document.getElementById("top-scores-container");
-  topScoresContainer.style.display = "block";
+  topScoresContainer.classList.remove("hidden");
 
   const notification = document.getElementById("notification");
   notification.textContent = "Game Over";
 
   const topScores = getTopScores();
   const topScoresList = document.getElementById("top-scores-list");
+  topScoresList.textContent = "";
   topScores.forEach((score, index) => {
     const li = document.createElement("li");
     li.textContent = `${index + 1}. Score: ${score} Lines: ${lines}`;
     topScoresList.appendChild(li);
   });
+};
+
+const restart = () => {
+  score = 0;
+  lines = 0;
+  isGameover = false;
+
+  document.getElementById("score").textContent = "0";
+  document.getElementById("lines").textContent = "0";
+  document.getElementById("notification").textContent = "";
+
+  const gridContainer = document.getElementById("grid-container");
+  gridContainer.innerHTML = "";
+
+  clearInterval(gameInterval);
+  initGame();
 };
 
 const gamePlay = () => {
@@ -168,7 +186,10 @@ const gamePlay = () => {
 const initGame = () => {
   createGrid();
   drawShape(getRandomShape());
+  document.getElementById("top-scores-container").classList.add("hidden");
+  document.getElementById("score-container").classList.remove("hidden");
   document.addEventListener("keydown", handleKeyPress);
+  document.getElementById("restart-button").addEventListener("click", restart);
   gameInterval = setInterval(gamePlay, 500);
 };
 

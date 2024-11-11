@@ -54,10 +54,6 @@ body {
   font-size: 4vh;
 }
 
-#top-scores-container {
-  display: none;
-}
-
 #top-scores-list {
   list-style-type: none;
 }
@@ -66,6 +62,10 @@ body {
 #lines {
   font-size: 7vh;
   color: #0f51b7;
+}
+
+.hidden {
+  display: none !important;
 }
 
 .cell {
