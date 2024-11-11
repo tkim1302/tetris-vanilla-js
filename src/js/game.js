@@ -7,10 +7,27 @@ import { getTopScores, saveScore } from "./topScores";
 
 const rows = 20;
 const cols = 10;
+const nextShapesArray = [];
 let score = 0;
 let lines = 0;
-let gameInterval;
 let isGameover = false;
+let gameInterval;
+
+const generateShape = () => {
+  while (nextShapesArray.length < 3) {
+    nextShapesArray.push(getRandomShape());
+  }
+};
+
+const showNextShapes = () => {
+  const nextShapesList = document.getElementById("next-shapes-list");
+  nextShapesList.innerHTML = "";
+  nextShapesArray.forEach((shape) => {
+    const li = document.createElement("li");
+    li.textContent = shape.name;
+    nextShapesList.appendChild(li);
+  });
+};
 
 const hasLanded = (position) => {
   clearShape();
@@ -29,7 +46,7 @@ const moveShapeDown = () => {
   if (hasLanded(newPosition)) {
     drawShape(currShape);
     checkCompletedRows();
-    setCurrShape(getRandomShape());
+    setCurrShape(nextShapesArray.shift());
     if (!hasMoreSpace()) {
       isGameover = true;
       return;
@@ -154,7 +171,7 @@ const gameOver = () => {
 
   const topScores = getTopScores();
   const topScoresList = document.getElementById("top-scores-list");
-  topScoresList.textContent = "";
+  topScoresList.innerHTML = "";
   topScores.forEach((score, index) => {
     const li = document.createElement("li");
     li.textContent = `${index + 1}. Score: ${score} Lines: ${lines}`;
@@ -180,6 +197,8 @@ const restart = () => {
 
 const gamePlay = () => {
   moveShapeDown();
+  generateShape();
+  showNextShapes();
   if (isGameover) gameOver();
 };
 
