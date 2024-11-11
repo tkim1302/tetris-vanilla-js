@@ -24,7 +24,9 @@ const showNextShapes = () => {
   nextShapesList.innerHTML = "";
   nextShapesArray.forEach((shape) => {
     const li = document.createElement("li");
-    li.textContent = shape.name;
+    const img = document.createElement("img");
+    img.src = shape.img;
+    li.appendChild(img);
     nextShapesList.appendChild(li);
   });
 };
@@ -47,6 +49,7 @@ const moveShapeDown = () => {
     drawShape(currShape);
     checkCompletedRows();
     setCurrShape(nextShapesArray.shift());
+    generateShape();
     if (!hasMoreSpace()) {
       isGameover = true;
       return;
@@ -187,6 +190,7 @@ const restart = () => {
   document.getElementById("score").textContent = "0";
   document.getElementById("lines").textContent = "0";
   document.getElementById("notification").textContent = "";
+  nextShapesArray.length = 0;
 
   const gridContainer = document.getElementById("grid-container");
   gridContainer.innerHTML = "";
@@ -197,7 +201,6 @@ const restart = () => {
 
 const gamePlay = () => {
   moveShapeDown();
-  generateShape();
   showNextShapes();
   if (isGameover) gameOver();
 };
@@ -205,6 +208,7 @@ const gamePlay = () => {
 const initGame = () => {
   createGrid();
   drawShape(getRandomShape());
+  generateShape();
   document.getElementById("top-scores-container").classList.add("hidden");
   document.getElementById("score-container").classList.remove("hidden");
   document.addEventListener("keydown", handleKeyPress);

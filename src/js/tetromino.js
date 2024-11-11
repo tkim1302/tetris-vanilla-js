@@ -1,12 +1,13 @@
 export const shapes = [
   {
-    name: "lShape",
+    name: "IShape",
     position: [
       [0, 3],
       [0, 4],
       [0, 5],
       [0, 6],
     ],
+    img: "/images/IShape.png",
   },
 
   {
@@ -17,6 +18,7 @@ export const shapes = [
       [0, 5],
       [1, 5],
     ],
+    img: "/images/JShape.png",
   },
   {
     name: "LShape",
@@ -26,6 +28,7 @@ export const shapes = [
       [0, 5],
       [1, 3],
     ],
+    img: "/images/LShape.png",
   },
   {
     name: "OShape",
@@ -35,6 +38,7 @@ export const shapes = [
       [1, 4],
       [1, 5],
     ],
+    img: "/images/OShape.png",
   },
   {
     name: "SShape",
@@ -44,6 +48,7 @@ export const shapes = [
       [0, 4],
       [0, 5],
     ],
+    img: "/images/SShape.png",
   },
   {
     name: "TShape",
@@ -53,6 +58,7 @@ export const shapes = [
       [0, 5],
       [1, 4],
     ],
+    img: "/images/TShape.png",
   },
   {
     name: "ZShape",
@@ -62,5 +68,6 @@ export const shapes = [
       [1, 4],
       [1, 5],
     ],
+    img: "/images/ZShape.png",
   },
 ];
