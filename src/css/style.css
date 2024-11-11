@@ -54,6 +54,14 @@ body {
   font-size: 4vh;
 }
 
+#top-scores-container {
+  display: none;
+}
+
+#top-scores-list {
+  list-style-type: none;
+}
+
 #score,
 #lines {
   font-size: 7vh;

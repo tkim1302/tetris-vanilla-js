@@ -1,5 +1,3 @@
-import { lines } from "../game";
-
 let score = 0;
 let notificationText = "";
 
@@ -22,16 +20,8 @@ const calculateScore = (completedRowsCnt) => {
       notificationText = "Tetris!!";
       break;
   }
-  const notification = document.getElementById("notification");
-  notification.textContent = notificationText;
-  const linesText = document.getElementById("lines");
-  linesText.textContent = lines;
-  setTimeout(() => {
-    notification.textContent = "";
-  }, 2000);
 
-  const scoreText = document.getElementById("score");
-  scoreText.textContent = `${score}`;
+  return score;
 };
 
-export { calculateScore };
+export { calculateScore, notificationText };

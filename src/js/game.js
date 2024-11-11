@@ -2,12 +2,15 @@ import { createGrid, clearShape, drawShape } from "./grid";
 import { getRandomShape } from "./utils/randomGenerator";
 import { getCurrShape, setCurrShape } from "./currShape";
 import { handleKeyPress } from "./controls";
-import { calculateScore } from "./utils/calculateScore";
+import { calculateScore, notificationText } from "./utils/calculateScore";
+import { getTopScores, saveScore } from "./topScores";
 
 const rows = 20;
 const cols = 10;
+let score = 0;
 let lines = 0;
 let gameInterval;
+let isGameover = false;
 
 const hasLanded = (position) => {
   clearShape();
@@ -27,7 +30,8 @@ const moveShapeDown = () => {
     drawShape(currShape);
     checkCompletedRows();
     setCurrShape(getRandomShape());
-    if (gameOver()) {
+    if (!hasMoreSpace()) {
+      isGameover = true;
       return;
     }
   } else {
@@ -68,7 +72,23 @@ const checkCompletedRows = () => {
     }
   }
   if (completedRowsCnt > 0) {
-    calculateScore(completedRowsCnt);
+    score = calculateScore(completedRowsCnt);
+    showGameStatus();
+  }
+};
+
+const showGameStatus = () => {
+  if (!isGameover) {
+    const notification = document.getElementById("notification");
+    notification.textContent = notificationText;
+    const linesText = document.getElementById("lines");
+    linesText.textContent = lines;
+    setTimeout(() => {
+      notification.textContent = "";
+    }, 2000);
+
+    const scoreText = document.getElementById("score");
+    scoreText.textContent = `${score}`;
   }
 };
 
@@ -105,7 +125,7 @@ const clearRow = (row) => {
   }
 };
 
-const gameOver = () => {
+const hasMoreSpace = () => {
   const currShape = getCurrShape();
   const position = currShape.position;
   for (const [row, col] of position) {
@@ -113,17 +133,36 @@ const gameOver = () => {
       `[data-row="${row}"][data-col="${col}"]`
     );
     if (row === 0 && cell?.classList.contains("occupied")) {
-      clearInterval(gameInterval);
-      const notification = document.getElementById("notification");
-      notification.textContent = "Game Over";
-      return true;
+      return false;
     }
   }
-  return false;
+  return true;
+};
+
+const gameOver = () => {
+  clearInterval(gameInterval);
+  saveScore(score);
+
+  document.getElementById("score-container").style.display = "none";
+
+  const topScoresContainer = document.getElementById("top-scores-container");
+  topScoresContainer.style.display = "block";
+
+  const notification = document.getElementById("notification");
+  notification.textContent = "Game Over";
+
+  const topScores = getTopScores();
+  const topScoresList = document.getElementById("top-scores-list");
+  topScores.forEach((score, index) => {
+    const li = document.createElement("li");
+    li.textContent = `${index + 1}. Score: ${score} Lines: ${lines}`;
+    topScoresList.appendChild(li);
+  });
 };
 
 const gamePlay = () => {
   moveShapeDown();
+  if (isGameover) gameOver();
 };
 
 const initGame = () => {
@@ -133,4 +172,4 @@ const initGame = () => {
   gameInterval = setInterval(gamePlay, 500);
 };
 
-export { hasCollided, initGame, lines };
+export { hasCollided, initGame };
