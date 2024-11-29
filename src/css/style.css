@@ -21,6 +21,10 @@ h3 {
   margin: 0;
 }
 
+button {
+  cursor: pointer;
+}
+
 #next-shapes-list {
   list-style-type: none;
   padding: 0;
