@@ -16,8 +16,9 @@ A web-based tetris game developed with Vanilla Javascript.
 
 1. Use the following controls:
 
-- Arrow Left/Right: Move the tetromino horizontally.
-- Arrow Up: Rotate the shape 90 degree clockwise.
+- Left Arrow/Right Arrow: Moves the tetromino horizontally.
+- Up Arrow: Rotates the tetromino 90 degrees clockwise.
+- Down Arrow: Moves the tetromino down by one cell
 
 2. Clear rows by filling them completely with tetrominos to get scores.
 
